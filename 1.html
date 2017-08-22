@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	
+</head>
+<body ng-controller="myCtrl">
+	<div class="container">
+		<!-- ng-selected用在<option>标签上面，ng-options用在<select>上面，用于动态创建options列表 -->
+		<form class="uk-form">
+           <select ng-model="province.name" ng-change="changesf()">
+				<option value="bj" ng-selected="province.name=='bj'">北京</option>
+				<option value="hb" ng-selected="province.name=='hb'">河北</option>
+				<option value="hn" ng-selected="province.name=='hn'">河南</option>
+           </select>
+
+           
+        </form>
+        <a ng-href="{{myhref}}">百度</a>
+        <!-- angularjs告诉浏览器在ng-src对应的表达式生效之前不要加载图片 -->
+        <img ng-src="{{province.imgSrc}}">
+	</div>
+	<script src="js/angular-1.3.0.js"></script>
+	<script>
+		var app=angular.module('myApp',[]);
+		app.controller('myCtrl',["$scope",function($scope){
+			var province=province || {};
+			province.name='hb'
+			province.changesf=function(){
+				if(province.name=='hn'){
+					alert('选中河南了')
+				}
+			}
+			province.imgSrc="images/login_boxbg.jpg"
+
+			$scope.province=province;
+		}]);
+		// run  方法初始化全局的数据 , 只对全局作用域起作用  如 $rootScope，局部的$scope不管用
+		app.run(function($rootScope,$timeout){
+			$timeout(function(){
+				$rootScope.myhref='http://www.baidu.com';
+				//$rootScope.imgSrc="images/login_boxbg.jpg"
+			},2000);
+		})
+	</script>
+</body>
+</html>
